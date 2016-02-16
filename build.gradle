@@ -1,0 +1,209 @@
+apply plugin: "groovy"
+apply plugin: "eclipse"
+apply plugin: "idea"
+apply plugin: "cqpackage"
+apply plugin: "cqinstall"
+apply plugin: "scr"
+
+if(!sourceSets.main.java.isEmpty() || !sourceSets.main.groovy.isEmpty()) {
+    //don't apply osgi plugin if there is no need
+    //breaks build if applied and without any java or groovy files
+    apply plugin: 'osgi'
+} else {
+    println "Not applying OSGi pluggin, no Java/Groovy source file found"
+}
+
+
+repositories {
+    mavenCentral()
+    maven {
+        url "http://repo.adobe.com/nexus/content/groups/public/"
+    }
+}
+
+jar.doFirst {
+    manifest {
+        //version = "1.0.0.SNAPSHOT"
+        attributes(
+                "Service-Component": project.extensions.getByName("serviceComponents") as String, //Set by scr plugin
+                "Bundle-Vendor": "solrpoc",
+                "Bundle-Description": "solrpoc bundle",
+                "Bundle-Version": "1.0.0.SNAPSHOT",
+                "Implementation-Version":"1.0.0.SNAPSHOT",
+                "Implementation-Vendor": "solrpoc",
+                "Bundle-SymbolicName": "com.solrpoc",
+                "Bundle-Name": "solrpoc"
+
+        )
+        instruction 'Import-Package', '*,!org.apache.servicemix.bundles.solr-solrj'
+
+        instruction 'Export-Package', "*,org.apache.http,org.apache.http.auth,org.apache.http.client,org.apache.http.client.entity,org.apache.http.client.methods,org.apache.http.client.params,org.apache.http.conn,org.apache.http.conn.scheme,org.apache.http.conn.ssl,org.apache.http.entity,org.apache.http.entity.mime,org.apache.http.entity.mime.content,org.apache.http.impl.client,org.apache.http.impl.conn,org.apache.http.impl.conn.tsccm,org.apache.http.message,org.apache.http.params,org.apache.http.protocol,org.apache.http.util, ; version=${version}"
+        instruction 'Service-Component', 'OSGI-INF/**'
+        instruction 'Embed-Dependency','org.apache.servicemix.bundles.solr-solrj'
+    }
+}
+
+jar.manifest {
+    version = "1.0.0.SNAPSHOT"
+}
+
+dependencies {
+
+    // Groovy
+    compile "org.codehaus.groovy:groovy-all:${groovy_version}"
+    compile("org.apache.httpcomponents:httpclient-osgi:${httpclient_osgi_version}") { transitive = false }
+    compile("org.apache.httpcomponents:httpcore-osgi:${httpcore_osgi_version}") { transitive = false }
+
+    // OSGi core / Felix
+    compile "org.apache.felix:org.apache.felix.scr.annotations:${scr_annotations_version}"
+    compile "org.apache.felix:org.apache.felix.scr.ant:${scr_ant_version}"
+    compile "org.apache.felix:org.apache.felix.scr.generator:${scr_ant_version}"
+    compile "org.apache.felix:org.apache.felix.scr:${felix_scr_version}"
+    compile "org.osgi:org.osgi.compendium:${osgi_compendium_version}"
+    compile "org.osgi:org.osgi.compendium:${osgi_compendium_version}"
+    compile "org.osgi:org.osgi.core:${osgi_core_version}"
+
+    // Sling
+    compile "org.apache.sling:org.apache.sling.api:${sling_api_version}"
+    compile "org.apache.sling:org.apache.sling.commons.json:${sling_commons_json_version}"
+    compile "org.apache.sling:org.apache.sling.commons.osgi:${sling_commons_osgi_version}"
+    compile "org.apache.sling:org.apache.sling.commons.scheduler:${sling_commons_scheduler_version}"
+    compile "org.apache.sling:org.apache.sling.discovery.api:${sling_discovery_version}"
+    compile "org.apache.sling:org.apache.sling.event:${sling_event_version}"
+    compile "org.apache.sling:org.apache.sling.jcr.api:${sling_jcr_api_version}"
+    compile "org.apache.sling:org.apache.sling.jcr.resource:${sling_jcrresourceresolver_version}"
+    compile "org.apache.sling:org.apache.sling.rewriter:${sling_rewriter_version}"
+    compile "org.apache.sling:org.apache.sling.settings:${sling_settings_version}"
+
+    // Logging
+    compile "org.slf4j:slf4j-api:${slf4j_version}"
+
+    // JCR / Jackrabbit
+    compile "javax.jcr:jcr:${jcr_version}"
+    compile "org.apache.jackrabbit:jackrabbit-api:${jackrabbit_api_version}"
+    compile "org.apache.jackrabbit:jackrabbit-jcr-commons:${jackrabbit_commons_version}"
+
+    // JSP / servlet
+    compile "javax.servlet:servlet-api:${servlet_api_version}"
+    compile "javax.servlet.jsp:jsp-api:${jsp_api_version}"
+
+    // CQ
+    compile "com.day.cq.dam:cq-dam-api:${cq_dam_api_version}"
+    compile "com.day.cq.wcm:cq-wcm-api:${cq_wcm_api_version}"
+    compile "com.day.cq.wcm:cq-wcm-foundation:${cq_wcm_foundation_version}", {
+        exclude group: 'com.adobe.cq.testing'
+    }
+    compile "com.day.cq.workflow:cq-workflow-api:${cq_workflow_api_version}"
+    compile "com.day.cq:cq-commons:${cq_commons_version}"
+    compile "com.day.cq:cq-mailer:${cq_mailer_version}"
+    compile "com.day.cq:cq-replication:${cq_replication_version}"
+    compile "com.day.cq:cq-rewriter:${cq_rewriter_version}"
+    compile "com.day.cq:cq-search:${cq_search_version}"
+    compile "com.day.cq:cq-security-api:${cq_security_api_version}"
+    compile "com.day.cq:cq-security:${cq_security_version}"
+    compile "com.day.cq:cq-tagging:${cq_tagging_version}"
+    compile "com.day.cq.wcm:cq-wcm-webservice-support:${cq_wcm_webservice_version}"
+
+    // Day / Adobe
+    compile "com.adobe.granite:com.adobe.granite.ui.commons:${granite_ui_commons_version}"
+    compile "com.adobe.granite:com.adobe.granite.xssprotection:${granite_xssprotection_version}"
+    compile "com.day.commons:day-commons-gfx:${day_commons_gfx_version}"
+
+    // SOLR
+    compile("org.apache.servicemix.bundles:org.apache.servicemix.bundles.solr-solrj:${solrj_client_version}") {transitive = false}
+    compile("org.apache.servicemix.bundles:org.apache.servicemix.bundles.noggit:${servicemix_noggit_version}") {transitive = false}
+
+    // Other Apache
+    compile "commons-io:commons-io:${commons_io_version}"
+    compile "org.apache.commons:commons-lang3:${commons_lang3_version}"
+
+
+    // Misc / Other
+    compile "joda-time:joda-time:${joda_time_version}"
+    compile "net.sf.flexjson:flexjson:${flexjson_version}"
+    compile "org.jsoup:jsoup:${jsoup_version}"
+
+
+    testCompile "org.apache.sling:org.apache.sling.commons.testing:${sling_commons_testing_version}"
+
+
+    testRuntime "org.slf4j:slf4j-simple:${slf4j_version}"
+    testRuntime "cglib:cglib-nodep:${cglib_nodep_version}"
+
+}
+
+sourceSets.main.compileClasspath += configurations.notProvided
+
+idea {
+    module {
+        jdkName = "1.7"
+        name = "solrpoc"
+    }
+    project.ipr {
+        withXml { provider ->
+            //Map version control to Git
+            provider.node.component.find { it.@name == 'VcsDirectoryMappings' }.mapping.@vcs = 'Git'
+
+            //Get the code style node
+            def codeStyleNode = provider.node.component.find { it.@name == 'ProjectCodeStyleSettingsManager' }
+            //If it doesn't exist, create it
+            if (codeStyleNode == null) {
+                codeStyleNode = provider.node.appendNode('component', [name: 'ProjectCodeStyleSettingsManager'])
+            }
+
+            //Replace the current code style node, with a new one
+            codeStyleNode.replaceNode { node ->
+                component(name: 'ProjectCodeStyleSettingsManager') {
+
+                    option(name: "USE_PER_PROJECT_SETTINGS", value: "true")
+
+                    option(name: "PER_PROJECT_SETTINGS") {
+                        value {
+                            option(name: "CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND", value: "9999")
+                            option(name: "NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND", value: "9999")
+                            XML {
+                                option(name: "XML_LEGACY_SETTINGS_IMPORTED", value: "true")
+                            }
+                            option(name: "OTHER_INDENT_OPTIONS") {
+                                value {
+                                    option(name: "INDENT_SIZE", value: "4")
+                                    option(name: "CONTINUATION_INDENT_SIZE", value: "4")
+                                    option(name: "TAB_SIZE", value: "4")
+                                    option(name: "USE_TAB_CHARACTER", value: "false")
+                                    option(name: "SMART_TABS", value: "false")
+                                    option(name: "LABEL_INDENT_SIZE", value: "0")
+                                    option(name: "LABEL_INDENT_ABSOLUTE", value: "false")
+                                    option(name: "USE_RELATIVE_INDENTS", value: "false")
+                                }
+                            }
+
+                            GroovyCodeStyleSettings {
+                                option(name: "CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND", value: "9999")
+                                option(name: "NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND", value: "9999")
+                            }
+
+                            // Set code style for Groovy
+                            codeStyleSettings(language: 'Groovy') {
+                                option(name: "CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND", value: "9999")
+                                option(name: "NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND", value: "9999")
+                                option(name: "BLANK_LINES_AROUND_METHOD", value: "2")
+                                option(name: "ELSE_ON_NEW_LINE", value: "true")
+                                option(name: "CATCH_ON_NEW_LINE", value: "true")
+                                option(name: "FINALLY_ON_NEW_LINE", value: "true")
+                                option(name: "SPACE_AFTER_TYPE_CAST", value: "false")
+                                option(name: "INDENT_SIZE", value: "2")
+                                option(name: "TAB_SIZE", value: "4")
+
+                                option(name: "CONTINUATION_INDENT_SIZE", value: "4")
+                                indentOptions {
+                                    option(name: "CONTINUATION_INDENT_SIZE", value: "4")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

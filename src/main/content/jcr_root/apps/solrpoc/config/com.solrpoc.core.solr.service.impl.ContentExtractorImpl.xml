@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="sling:OsgiConfig"
+    metadata.mapping.values="[solrpoc/components/pages/sitePage@title=jcr:title;description=jcr:description;tags=cq:tags;content=main-content-section;date_created=jcr:created;last_modified=cq:lastModified;template=cq:template]"/>

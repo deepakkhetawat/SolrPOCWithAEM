@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+          jcr:primaryType="cq:Dialog"
+          width="800"
+          xtype="dialog">
+    <items
+            jcr:primaryType="cq:Widget"
+            activeTab="0"
+            xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <basic
+                    jcr:primaryType="cq:Widget"
+                    title="Search options"
+                    xtype="panel">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <searchPagePath
+                            jcr:primaryType="cq:Widget"
+                            allowBlank="{Boolean}false"
+                            autoDelete="{Boolean}true"
+                            fieldDescription="Configure search page"
+                            fieldLabel="Search page URL"
+                            grow="{Boolean}false"
+                            name="./searchPagePath"
+                            width="300"
+                            xtype="pathfield"/>
+                    <paginationResults
+                            jcr:primaryType="cq:Widget"
+                            defaultValue="15"
+                            fieldDescription="Configure Pagination Results"
+                            fieldLabel="Pagination Results"
+                            name="./paginationResults"
+                            width="300"
+                            xtype="textfield"/>
+                </items>
+            </basic>
+        </items>
+    </items>
+</jcr:root>

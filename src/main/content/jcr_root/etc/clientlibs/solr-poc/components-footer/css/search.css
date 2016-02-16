@@ -1,0 +1,42 @@
+.solr-search-button {
+    color: white;
+    font-size: .9rem;
+    border-radius: 4px;
+    border-style: none;
+    white-space: nowrap;
+}
+
+.solr-search-button {
+    background-color: #1576a5;
+    border-color: #1576a5;
+}
+
+.solr-results-clear-button {
+    display: table-cell;
+    width: 100%;
+}
+
+.solr-results-clear-button {
+    text-align: right;
+    margin-left: 4px;
+    margin-right: 4px;
+    padding-left: 10px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('http://www.google.com/uds/css/clear.gif');
+    cursor: pointer;
+}
+
+.current-page-index {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.pagination {
+    width: 100%;
+}
+
+.pagination  a {
+    cursor: pointer;
+    font-weight: normal;
+}

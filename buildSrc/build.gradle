@@ -1,0 +1,21 @@
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile gradleApi()
+    compile "org.codehaus.groovy:groovy-all:2.1.8"
+
+    compile 'org.apache.felix:org.apache.felix.scr.generator:1.12.0'
+    compile 'joda-time:joda-time:2.7'
+    compile ('org.apache.httpcomponents:httpclient:4.4') {
+        exclude group: 'commons-logging'
+    }
+    compile ('org.apache.httpcomponents:httpmime:4.4') {
+        transitive = false
+    }
+}
