@@ -24,7 +24,7 @@ import org.osgi.service.component.ComponentContext
 @Component(label = 'Solrpoc - Search results configuration service for Solr results',
         description = 'Configure fields that need to be extracted from Solr server search results.', metatype = true, immediate = true, policy = ConfigurationPolicy.REQUIRE)
 @Service(ResultConfiguration)
-class ResultConfigurationImpl implements ResultConfiguration {
+public class ResultConfigurationImpl implements ResultConfiguration {
 
 
     public static final String SOLR_SEARCH_COLLECTION_NAME = 'solr.search.collection.name'
@@ -36,8 +36,6 @@ class ResultConfigurationImpl implements ResultConfiguration {
     public static final String SOLR_SEARCH_DESCRIPTION = "description:"
     public static final String SOLR_SEARCH_CONTENT = "content:"
     List<Facet> tagsSolrFacetList = []
-
-
 
     @Property(name = 'solr.search.collection.name',
             label = 'Solr Core Name',
@@ -151,7 +149,7 @@ class ResultConfigurationImpl implements ResultConfiguration {
     }
 
     @Override
-    SolrSearchResults getSearchResults(SlingHttpServletRequest request) {
+    SolrSearchResults getSearchResultsSolr(SlingHttpServletRequest request) {
 
         SlingSolrSearchRequest slingRequest = new SlingSolrSearchRequest(request);
         String query = SOLR_SEARCH_TITLE + slingRequest.query + OR_CONDITION + SOLR_SEARCH_DESCRIPTION + slingRequest.query + OR_CONDITION + SOLR_SEARCH_CONTENT + slingRequest.query

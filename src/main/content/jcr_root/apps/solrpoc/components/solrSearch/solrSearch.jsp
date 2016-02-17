@@ -1,11 +1,9 @@
 <%@include file="/apps/solrpoc/global.jsp" %>
-<%@page session="false" import="com.solrpoc.core.solr.service.ResultConfiguration" %>
 
-<%
-    ResultConfiguration resultConfiguration = sling.getService(ResultConfiguration.class);
-%>
+<%@ page import="com.solrpoc.core.solr.service.ResultConfiguration" %>
+<% ResultConfiguration resultConfiguration = sling.getService(ResultConfiguration.class); %>
 
-<c:set var="results" value="<%=resultConfiguration.getSearchResults(slingRequest)%>"/>
+<c:set var="results" value="<%= resultConfiguration.getSearchResultsSolr(slingRequest)%>"/>
 <c:set var="tagsSolrFacetList" value="${results.tagsSolrFacetList}"/>
 
 <c:set var="searchResultSize" value="${results.totalResults}"/>
@@ -40,7 +38,7 @@
                         ${results.searchResults[i].title}
                     </a>
 
-                    <div> ${solrpoc:getAbsoluteUrl(slingRequest, results.searchResults[i].id)} </div>
+                    <%--   <div> ${solrpoc:getAbsoluteUrl(slingRequest, results.searchResults[i].id)} </div>--%>
                 </div>
             </c:forEach>
         </c:when>

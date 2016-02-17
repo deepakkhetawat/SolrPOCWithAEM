@@ -8,6 +8,6 @@ interface ResultConfiguration {
 
     SolrSearchResults getSearchResults(SlingSolrSearchRequest request)
 
-    SolrSearchResults getSearchResults(SlingHttpServletRequest request)
+    SolrSearchResults getSearchResultsSolr(SlingHttpServletRequest request)
 
 }

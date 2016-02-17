@@ -31,15 +31,15 @@ jar.doFirst {
                 "Bundle-Version": "1.0.0.SNAPSHOT",
                 "Implementation-Version":"1.0.0.SNAPSHOT",
                 "Implementation-Vendor": "solrpoc",
-                "Bundle-SymbolicName": "com.solrpoc",
-                "Bundle-Name": "solrpoc"
+                "Bundle-SymbolicName": "com.solrpoc.core",
+                "Bundle-Name": "com.solrpoc.core"
 
         )
-        instruction 'Import-Package', '*,!org.apache.servicemix.bundles.solr-solrj'
+          instruction 'Import-Package', '*'
 
-        instruction 'Export-Package', "*,org.apache.http,org.apache.http.auth,org.apache.http.client,org.apache.http.client.entity,org.apache.http.client.methods,org.apache.http.client.params,org.apache.http.conn,org.apache.http.conn.scheme,org.apache.http.conn.ssl,org.apache.http.entity,org.apache.http.entity.mime,org.apache.http.entity.mime.content,org.apache.http.impl.client,org.apache.http.impl.conn,org.apache.http.impl.conn.tsccm,org.apache.http.message,org.apache.http.params,org.apache.http.protocol,org.apache.http.util, ; version=${version}"
-        instruction 'Service-Component', 'OSGI-INF/**'
-        instruction 'Embed-Dependency','org.apache.servicemix.bundles.solr-solrj'
+        //  instruction 'Export-Package', "*,org.apache.http.client.methods.HttpUriRequest,org.apache.http,org.apache.http.auth,org.apache.http.client,org.apache.http.client.entity,org.apache.http.client.methods,org.apache.http.client.params ,org.apache.http.conn,org.apache.http.conn.scheme,org.apache.http.conn.ssl,org.apache.http.entity,org.apache.http.entity.mime,org.apache.http.entity.mime.content,org.apache.http.impl.client,org.apache.http.impl.conn,org.apache.http.impl.conn.tsccm,org.apache.http.message,org.apache.http.params,org.apache.http.protocol,org.apache.http.util"
+          instruction 'Service-Component', 'OSGI-INF/**'
+         // instruction 'Embed-Dependency','httpclient,org.apache.servicemix.bundles.solr-solrj'
     }
 }
 
@@ -53,6 +53,7 @@ dependencies {
     compile "org.codehaus.groovy:groovy-all:${groovy_version}"
     compile("org.apache.httpcomponents:httpclient-osgi:${httpclient_osgi_version}") { transitive = false }
     compile("org.apache.httpcomponents:httpcore-osgi:${httpcore_osgi_version}") { transitive = false }
+    compile("org.apache.httpcomponents:httpclient:${httpclient_version}")
 
     // OSGi core / Felix
     compile "org.apache.felix:org.apache.felix.scr.annotations:${scr_annotations_version}"

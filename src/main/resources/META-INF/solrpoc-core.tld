@@ -5,11 +5,6 @@
     <short-name>solrpoc</short-name>
     <uri>http://www.solrpoc.com/taglibs/core</uri>
     <function>
-        <name>removeHTML</name>
-        <function-class>com.solrpoc.core.util.TextUtil</function-class>
-        <function-signature>java.lang.String removeHTML(java.lang.String)</function-signature>
-    </function>
-    <function>
         <name>getAbsoluteUrl</name>
         <function-class>com.solrpoc.core.util.URLUtil</function-class>
         <function-signature>java.lang.String getAbsoluteUrl(org.apache.sling.api.SlingHttpServletRequest, java.lang.String)</function-signature>
